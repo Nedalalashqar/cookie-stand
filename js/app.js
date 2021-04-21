@@ -4,6 +4,7 @@ let hour = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3
 const parentElement = document.getElementById('salesData');
 let datatable = document.getElementById('Datatable');
 
+
 function Salmon(name, mincust, maxcust, avgsale) {
   this.name = name;
   this.mincust = mincust;
@@ -30,12 +31,12 @@ Salmon.prototype.render = function () {
 
   const tr = document.createElement('tr');
   datatable.appendChild(tr);
-  
+
   let td = document.createElement('td');
   tr.appendChild(td);
   td.textContent = this.name;
 
-  for(let i = 0; i < hour.length; i++) {
+  for (let i = 0; i < hour.length; i++) {
     let tContent = document.createElement('td');
     tr.appendChild(tContent);
     tContent.textContent = this.cookiesPerHour[i];
@@ -72,11 +73,13 @@ function footers() {
   tfoot.appendChild(thEle);
   thEle.textContent = 'Total';
 
+
+
   let totalOfTotals = 0;
   for (let i = 0; i < hour.length; i++) {
     let thEle = document.createElement('th');
     let hourlyTotal = 0;
-    for(let j = 0; j < Salmon.allCity.length; j++) {
+    for (let j = 0; j < Salmon.allCity.length; j++) {
       hourlyTotal += Salmon.allCity[j].cookiesPerHour[i];
       totalOfTotals += Salmon.allCity[j].cookiesPerHour[i];
     }
@@ -96,7 +99,8 @@ new Salmon('Paris', '20', '38', '2.3');
 new Salmon('Lima', '2', '16', '4.6');
 
 function render() {
-  for(let i = 0; i < Salmon.allCity.length; i++){
+  
+  for (let i = 0; i < Salmon.allCity.length; i++) {
     Salmon.allCity[i].render();
   }
 }
@@ -110,7 +114,25 @@ function getRandomValue(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-//console.log(Salmon.allCity)
-
 
 footers();
+
+accInfo.addEventListener('submit' , eventButtom);
+
+function eventButtom(event){
+  event.preventDefault();
+  console.log(event.target.nameBranch.value);
+  const nname =event.target.nameBranch.value;
+  const minc = event.target.minCus.value;
+  const maxc = event.target.maxCus.value;
+  const ava = event.target.avaCus.value;
+  
+  let newSalmon = new Salmon (nname , minc , maxc , ava);
+  newSalmon.gitCustNumber(minc , maxc);
+  
+  newSalmon.render();
+  accInfo.reset();
+
+
+  console.log(nname , minc , maxc , ava);
+}
