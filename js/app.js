@@ -2,7 +2,7 @@
 
 let hour = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'];
 const parentElement = document.getElementById('salesData');
-let datatable = document.getElementById('Datatable');
+const datatable = document.getElementById('Datatable');
 
 
 function Salmon(name, mincust, maxcust, avgsale) {
@@ -17,13 +17,19 @@ function Salmon(name, mincust, maxcust, avgsale) {
 }
 Salmon.allCity = [];
 
+function getRandomValue(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
 Salmon.prototype.gitCustNumber = function () {
   for (let i = 0; i < hour.length; i++) {
     let cookiee = Math.ceil(getRandomValue(this.mincust, this.maxcust) * this.avgsale);
     this.cookiesPerHour.push(cookiee);
-    this.total += cookiee;
-    console.log(`${hour[i]} : ${this.cookiesPerHour[i]}`)
-  };
+    this.total = this.total+cookiee;
+    //console.log(`${hour[i]} : ${this.cookiesPerHour[i]}`)
+  }
 };
 
 Salmon.prototype.render = function () {
@@ -54,6 +60,7 @@ function heading() {
   let thEle = document.createElement('th');
   thead.appendChild(thEle);
   thEle.textContent = '';
+
   for (let i = 0; i < hour.length; i++) {
     let thEle = document.createElement('th');
     thead.appendChild(thEle);
@@ -92,6 +99,25 @@ function footers() {
   th1Ele.textContent = totalOfTotals;
 }
 
+accInfo.addEventListener('submit', addCity);
+function addCity(event) {
+  event.preventDefault();
+  console.log(event.target.nameBranch.value);
+  const nname =event.target.nameBranch.value;
+  const minc = event.target.minCus.value;
+  const maxc = event.target.maxCus.value;
+  const ava = event.target.avaCus.value;
+  
+  let newSalmon = new Salmon (nname , minc , maxc , ava);
+  datatable.innerHTML = '';
+  heading();
+  render();
+  footers();
+  accInfo.reset();
+}
+
+
+
 new Salmon('Seattle', '23', '65', '6.3');
 new Salmon('Tokyo', '3', '24', '1.2');
 new Salmon('Dubai', '11	', '38', '3.7');
@@ -107,32 +133,5 @@ function render() {
 
 heading();
 render();
-
-function getRandomValue(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min) + min);
-}
-
-
 footers();
 
-accInfo.addEventListener('submit' , eventButtom);
-
-function eventButtom(event){
-  event.preventDefault();
-  console.log(event.target.nameBranch.value);
-  const nname =event.target.nameBranch.value;
-  const minc = event.target.minCus.value;
-  const maxc = event.target.maxCus.value;
-  const ava = event.target.avaCus.value;
-  
-  let newSalmon = new Salmon (nname , minc , maxc , ava);
-  newSalmon.gitCustNumber(minc , maxc);
-  
-  newSalmon.render();
-  accInfo.reset();
-
-
-  console.log(nname , minc , maxc , ava);
-}
