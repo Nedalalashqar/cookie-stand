@@ -8,6 +8,7 @@ body {
   margin:0 auto;
   font-family: 'Noto Sans JP', sans-serif;
   line-height: 1.5;
+  background-color: rgb(17, 204, 204);
 }
 
 header {
@@ -33,10 +34,15 @@ main {
   margin: 10px;
 }
 
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
 table, th, td {
-  border: 1px solid black;
-  padding: 15px;
+  padding: 8px;
   text-align: left;
+  border-bottom: 1px solid #ddd;
 }
 
 
